@@ -22,13 +22,15 @@ def read_orbit_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     orbit     = struct()
     Epoch_min = datetime.datetime.strptime(Epoch0_min[0:10], "%Y-%m-%d")     # Start time
     Epoch_max = datetime.datetime.strptime(Epoch0_max[0:10], "%Y-%m-%d")     # End   time
-    Epoch_len = Epoch_max - Epoch_min;   print('[Total]', Epoch_len.days, 'days      (', Epoch0_min[0:10], '-', Epoch0_max[0:10],  ')')
+    Epoch_len = Epoch_max - Epoch_min;   print('[Total]', Epoch_len.days+1, 'days      (', Epoch0_min[0:10], '-', Epoch0_max[0:10],  ')')
     Epoch     = Epoch_min
     for i in range (Epoch_len.days+1):
         str_Epoch = Epoch.strftime('%Y-%m-%d ')
         orbit1 = read_orbit(str_Epoch, data_dir)
         if i==0 or mode_check == 1:
             orbit = orbit1
+            orbit.epoch = np.array(orbit1.epoch)
+            print(orbit.epoch.shape)
         else:
             orbit = orbit_add(orbit, orbit1)
         Epoch  = Epoch + datetime.timedelta(days=1)

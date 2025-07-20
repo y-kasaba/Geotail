@@ -24,7 +24,7 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     sfa       = struct()
     Epoch_min = datetime.datetime.strptime(Epoch0_min[0:10], "%Y-%m-%d")     # Start epoch
     Epoch_max = datetime.datetime.strptime(Epoch0_max[0:10], "%Y-%m-%d")     # End   epoch
-    Epoch_len = Epoch_max - Epoch_min;   print('[Total]', Epoch_len.days, 'days      (', Epoch0_min[0:10], '-', Epoch0_max[0:10],  ')')
+    Epoch_len = Epoch_max - Epoch_min;   print('[Total]', Epoch_len.days+1, 'days      (', Epoch0_min[0:10], '-', Epoch0_max[0:10],  ')')
     Epoch     = Epoch_min
     for i in range (Epoch_len.days+1):
         str_Epoch = Epoch.strftime('%Y-%m-%d ')
@@ -40,7 +40,7 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
         else:
             sfa = sfa_add(sfa, sfa1)
         Epoch  = Epoch + datetime.timedelta(days=1)
-        print(i, str_Epoch, sfa.num)
+        print(i+1, str_Epoch, sfa.num)
 
     # Fill NAN into GAP
     if mode_gap == 1:
@@ -48,6 +48,7 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
             dt = sfa.epoch[i+1] - sfa.epoch[i]
             if dt.total_seconds() > 60:
                 sfa.sfae_high[i] = math.nan;  sfa.sfae_high[i+1] = math.nan
+    """
     print("[freq_e] ",    sfa.freq_e[0],       sfa.freq_e[-1],        sfa.freq_e.shape,    sfa.freq_e.dtype)
     print("[freq_b] ",    sfa.freq_b[0],       sfa.freq_b[-1],        sfa.freq_b.shape,    sfa.freq_b.dtype)
     print("[sfae_high] ", sfa.sfae_high[0][0], sfa.sfae_high[-1][-1], sfa.sfae_high.shape, sfa.sfae_high.dtype)
@@ -55,6 +56,7 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     print("[antstat] ",   sfa.antstat[0],      sfa.antstat[-1],       sfa.antstat.shape,   sfa.antstat.dtype)
     print("[e_ampstat] ", sfa.e_ampstat[0],    sfa.e_ampstat[-1],     sfa.e_ampstat.shape, sfa.e_ampstat.dtype)
     print("[epoch] ",     sfa.epoch[0],        sfa.epoch[-1],         sfa.epoch.shape,     sfa.epoch.dtype)
+    """
     return  sfa
 
 
