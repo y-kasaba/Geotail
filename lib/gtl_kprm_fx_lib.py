@@ -30,7 +30,6 @@ def read_orbit_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
         if i==0 or mode_check == 1:
             orbit = orbit1
             orbit.epoch = np.array(orbit1.epoch)
-            print(orbit.epoch.shape)
         else:
             orbit = orbit_add(orbit, orbit1)
         Epoch  = Epoch + datetime.timedelta(days=1)
