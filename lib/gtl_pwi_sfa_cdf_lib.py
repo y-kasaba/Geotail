@@ -24,7 +24,7 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     sfa       = struct()
     Epoch_min = datetime.datetime.strptime(Epoch0_min[0:10], "%Y-%m-%d")     # Start epoch
     Epoch_max = datetime.datetime.strptime(Epoch0_max[0:10], "%Y-%m-%d")     # End   epoch
-    Epoch_len = Epoch_max - Epoch_min;   print('[Total]', Epoch_len.days+1, 'days      (', Epoch0_min[0:10], '-', Epoch0_max[0:10],  ')')
+    Epoch_len = Epoch_max - Epoch_min;   print('[CDF]', Epoch_len.days+1, 'days      (', Epoch0_min[0:10], '-', Epoch0_max[0:10],  ')')
     Epoch     = Epoch_min
     for i in range (Epoch_len.days+1):
         str_Epoch = Epoch.strftime('%Y-%m-%d ')

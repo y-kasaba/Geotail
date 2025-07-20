@@ -41,12 +41,14 @@ def read_orbit_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
             dt = orbit.epoch[i+1] - orbit.epoch[i]
             if dt.total_seconds() > 60:
                 orbit_nan(orbit, i);   orbit_nan(orbit, i+1)
+    """
     print("[orbit_SM] ",    orbit.orbit_SM[0], orbit.orbit_SM[-1],    orbit.orbit_SM.shape,  orbit.orbit_SM.dtype)
     print("[R] ",           orbit.R[0],        orbit.R[-1],           orbit.R.shape,         orbit.R.dtype)
     print("[MLAT] ",        orbit.MLAT[0],     orbit.MLAT[-1],        orbit.MLAT.shape,      orbit.MLAT.dtype)
     print("[MLT] ",         orbit.MLT[0],      orbit.MLT[-1],         orbit.MLT.shape,       orbit.MLT.dtype)
     print("[tilt] ",        orbit.tilt[0],     orbit.tilt[-1],        orbit.tilt.shape,      orbit.tilt.dtype)
     print("[epoch] ",       orbit.epoch[0],    orbit.epoch[-1],       orbit.epoch.shape,     orbit.epoch.dtype)
+    """
     return  orbit
 
 
