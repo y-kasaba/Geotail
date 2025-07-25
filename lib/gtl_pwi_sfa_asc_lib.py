@@ -1,5 +1,5 @@
 """
-    Geotail PWI SFA lib -- 2025/7/20
+    Geotail PWI SFA lib -- 2025/7/25
 """
 import csv
 import datetime
@@ -71,6 +71,7 @@ def read_sfa(Epoch, data_dir):
     sfa1     = struct()
     Epoch_YY = Epoch[2:4];  Epoch_MM = Epoch[5:7];  Epoch_DD = Epoch[8:10]
     name_sfa_file = name_SFA_data(Epoch_YY, Epoch_MM, Epoch_DD, data_dir)
+    print(name_sfa_file)
     try:
         with open(name_sfa_file, 'r') as f:
             f.close()
