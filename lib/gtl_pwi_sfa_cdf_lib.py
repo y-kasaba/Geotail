@@ -60,11 +60,11 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
 
     print("")
     # ANT & AMP selection
-    sfa.antstat_E  = sfa.antstat    // 10
+    sfa.e_antstat  =  sfa.antstat   // 10
     sfa.e_ampstat5 =  sfa.e_ampstat         % 10
     sfa.e_ampstat4 = (sfa.e_ampstat //  10) % 10
     sfa.e_ampstat3 = (sfa.e_ampstat // 100) % 10
-    print("[antstat(1:U/WANT 0:V/PANT)] ", sfa.antstat_E[0],   sfa.antstat_E[-1],  "\t", sfa.antstat_E.shape,  "\t",  sfa.antstat_E.dtype)
+    print("[antstat(1:U/WANT 0:V/PANT)] ", sfa.e_antstat [0],  sfa.e_antstat [-1], "\t", sfa.e_antstat.shape,  "\t",  sfa.e_antstat.dtype)
     print("[ampstat_B5  (1:High 0:Low)] ", sfa.e_ampstat5[0],  sfa.e_ampstat5[-1], "\t", sfa.e_ampstat5.shape, "\t",  sfa.e_ampstat5.dtype)
     print("[ampstat_B4  (1:High 0:Low)] ", sfa.e_ampstat4[0],  sfa.e_ampstat4[-1], "\t", sfa.e_ampstat4.shape, "\t",  sfa.e_ampstat4.dtype)
     print("[ampstat_B3  (1:High 0:Low)] ", sfa.e_ampstat3[0],  sfa.e_ampstat3[-1], "\t", sfa.e_ampstat3.shape, "\t",  sfa.e_ampstat3.dtype)
