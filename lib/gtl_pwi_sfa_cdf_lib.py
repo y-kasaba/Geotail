@@ -15,8 +15,8 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
             sfa.freq_b[0:128]             Frequency in B-field (Hz)   (1575 - 12427.547 Hz)
             sfa.sfae_high[epoch][0:384]   Spectra in E-field   (dB V^2/m^2/Hz)
             sfa.sfab_high[epoch][0:128]   Spectra in B-field   (dB nT^2/Hz)
-            sfa.antstat[epoch]            Antenna Status              (10.0)          00-11: ANT of E(0:EY, 1:EX) & B(0:BY 1:BZ)
-            sfa.e_ampstat[epoch]          Receiver Gain               (11111.0)       00000-11111: gain of BAND-1/2/3/4/5 (0:L 1:H)
+            sfa.antstat[epoch]            Antenna Status              (10)          00-11: ANT of E(1:U/WANT 0:V/PANT) & B(1:alpha 0:BZ)
+            sfa.e_ampstat[epoch]          Receiver Gain               (11111)       00000-11111: gain of BAND-1/2/3/4/5 (0:L 1:H)
             sfa.epoch[epoch]              Epoch
     """
     class struct:
@@ -64,10 +64,10 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     sfa.e_ampstat5 =  sfa.e_ampstat         % 10
     sfa.e_ampstat4 = (sfa.e_ampstat //  10) % 10
     sfa.e_ampstat3 = (sfa.e_ampstat // 100) % 10
-    print("[antstat(0:U/WANT 1:V/PANT)] ", sfa.antstat_E[0],   sfa.antstat_E[-1],  "\t", sfa.antstat_E.shape,  "\t",  sfa.antstat_E.dtype)
-    print("[ampstat_B5  (0:Low 1:High)] ", sfa.e_ampstat5[0],  sfa.e_ampstat5[-1], "\t", sfa.e_ampstat5.shape, "\t",  sfa.e_ampstat5.dtype)
-    print("[ampstat_B4  (0:Low 1:High)] ", sfa.e_ampstat4[0],  sfa.e_ampstat4[-1], "\t", sfa.e_ampstat4.shape, "\t",  sfa.e_ampstat4.dtype)
-    print("[ampstat_B3  (0:Low 1:High)] ", sfa.e_ampstat3[0],  sfa.e_ampstat3[-1], "\t", sfa.e_ampstat3.shape, "\t",  sfa.e_ampstat3.dtype)
+    print("[antstat(1:U/WANT 0:V/PANT)] ", sfa.antstat_E[0],   sfa.antstat_E[-1],  "\t", sfa.antstat_E.shape,  "\t",  sfa.antstat_E.dtype)
+    print("[ampstat_B5  (1:High 0:Low)] ", sfa.e_ampstat5[0],  sfa.e_ampstat5[-1], "\t", sfa.e_ampstat5.shape, "\t",  sfa.e_ampstat5.dtype)
+    print("[ampstat_B4  (1:High 0:Low)] ", sfa.e_ampstat4[0],  sfa.e_ampstat4[-1], "\t", sfa.e_ampstat4.shape, "\t",  sfa.e_ampstat4.dtype)
+    print("[ampstat_B3  (1:High 0:Low)] ", sfa.e_ampstat3[0],  sfa.e_ampstat3[-1], "\t", sfa.e_ampstat3.shape, "\t",  sfa.e_ampstat3.dtype)
 
     return  sfa
 
