@@ -1,5 +1,5 @@
 """
-    Geotail PWI SFA lib -- 2025/7/25
+    Geotail PWI SFA lib -- 2025/8/15
 """
 import csv
 import datetime
@@ -22,6 +22,7 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     class struct:
         pass
     sfa       = struct()
+    sfa.num   = 0
     Epoch_min = datetime.datetime.strptime(Epoch0_min[0:10], "%Y-%m-%d")     # Start time
     Epoch_max = datetime.datetime.strptime(Epoch0_max[0:10], "%Y-%m-%d")     # End   time
     Epoch_len = Epoch_max - Epoch_min;   print('[ASCII]', Epoch_len.days+1, 'days      (', Epoch0_min[0:10], '-', Epoch0_max[0:10],  ')')
@@ -29,21 +30,22 @@ def read_sfa_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     for i in range (Epoch_len.days+1):
         str_Epoch = Epoch.strftime('%Y-%m-%d ')
         sfa1 = read_sfa(str_Epoch, data_dir)
-        if i==0 or mode_check == 1:  
-            sfa = sfa1
-            sfa.freq_e = np.zeros((128*3)); sfa.df_e   = np.zeros((128*3))
-            sfa.freq_b = np.zeros((128));   sfa.df_b   = np.zeros((128))
-            sfa.df_e[0:128]   = ( 12500 - 1562.5)/128.
-            sfa.df_e[128:256] = (100000 - 12500 )/128.
-            sfa.df_e[256:384] = (800000 - 100000)/128.
-            sfa.df_b[0:128]   = ( 12500 - 1562.5)/128.
-            for j in range(128):
-                sfa.freq_e[j]     = 1562.5 + j*sfa.df_e[0] 
-                sfa.freq_e[j+128] =  12500 + j*sfa.df_e[128]
-                sfa.freq_e[j+256] = 100000 + j*sfa.df_e[256]
-                sfa.freq_b[j]     = 1562.5 + j*sfa.df_b[0] 
-        else:
-            sfa = sfa_add(sfa, sfa1)
+        if sfa1.num > 0:
+            if sfa.num==0 or mode_check == 1:  
+                sfa = sfa1
+                sfa.freq_e = np.zeros((128*3)); sfa.df_e   = np.zeros((128*3))
+                sfa.freq_b = np.zeros((128));   sfa.df_b   = np.zeros((128))
+                sfa.df_e[0:128]   = ( 12500 - 1562.5)/128.
+                sfa.df_e[128:256] = (100000 - 12500 )/128.
+                sfa.df_e[256:384] = (800000 - 100000)/128.
+                sfa.df_b[0:128]   = ( 12500 - 1562.5)/128.
+                for j in range(128):
+                    sfa.freq_e[j]     = 1562.5 + j*sfa.df_e[0] 
+                    sfa.freq_e[j+128] =  12500 + j*sfa.df_e[128]
+                    sfa.freq_e[j+256] = 100000 + j*sfa.df_e[256]
+                    sfa.freq_b[j]     = 1562.5 + j*sfa.df_b[0] 
+            else:
+                sfa = sfa_add(sfa, sfa1)
         Epoch  = Epoch + datetime.timedelta(days=1)
         print(i+1, str_Epoch, sfa.num)
 
@@ -69,6 +71,7 @@ def read_sfa(Epoch, data_dir):
     class struct:
         pass
     sfa1     = struct()
+    sfa1.num   = 0
     Epoch_YY = Epoch[2:4];  Epoch_MM = Epoch[5:7];  Epoch_DD = Epoch[8:10]
     name_sfa_file = name_SFA_data(Epoch_YY, Epoch_MM, Epoch_DD, data_dir)
     print(name_sfa_file)

@@ -1,5 +1,5 @@
 """
-    Geotail PWI KPRM lib -- 2025/7/20
+    Geotail PWI KPRM lib -- 2025/8/15
 """
 import datetime
 import math
@@ -20,6 +20,7 @@ def read_orbit_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     class struct:
         pass
     orbit     = struct()
+    orbit.num = 0
     Epoch_min = datetime.datetime.strptime(Epoch0_min[0:10], "%Y-%m-%d")     # Start time
     Epoch_max = datetime.datetime.strptime(Epoch0_max[0:10], "%Y-%m-%d")     # End   time
     Epoch_len = Epoch_max - Epoch_min;   print('[Total]', Epoch_len.days+1, 'days      (', Epoch0_min[0:10], '-', Epoch0_max[0:10],  ')')
@@ -27,11 +28,12 @@ def read_orbit_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
     for i in range (Epoch_len.days+1):
         str_Epoch = Epoch.strftime('%Y-%m-%d ')
         orbit1 = read_orbit(str_Epoch, data_dir)
-        if i==0 or mode_check == 1:
-            orbit = orbit1
-            orbit.epoch = np.array(orbit1.epoch)
-        else:
-            orbit = orbit_add(orbit, orbit1)
+        if orbit1.num>0:
+            if orbit.num==0 or mode_check == 1:
+                orbit = orbit1
+                orbit.epoch = np.array(orbit1.epoch)
+            else:
+                orbit = orbit_add(orbit, orbit1)
         Epoch  = Epoch + datetime.timedelta(days=1)
         print(i, str_Epoch, orbit.num)
 
@@ -55,7 +57,8 @@ def read_orbit_multi(Epoch0_min, Epoch0_max, mode_gap, mode_check, data_dir):
 def read_orbit(Epoch, data_dir):
     class struct:
         pass
-    orbit1   = struct()
+    orbit1     = struct()
+    orbit1.num = 0
     Epoch_YY = Epoch[2:4];  Epoch_MM = Epoch[5:7];  Epoch_DD = Epoch[8:10]
     name_FX_file  = name_FX_data(Epoch_YY, Epoch_MM, Epoch_DD, data_dir)
     try:
@@ -69,7 +72,7 @@ def read_orbit(Epoch, data_dir):
     f = open(name_FX_file, 'r')
     line_FX = f.readlines()
     f.close()
-    line_FX = line_FX[1:-1]
+    line_FX = line_FX[1:len(line_FX)]
     #
     orbit1.num      = len(line_FX)
     orbit1.epoch    = []
